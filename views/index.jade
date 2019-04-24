@@ -2,4 +2,12 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+
+  table.type01
+    tbody
+      -for(var i=0; i<border_json.length; i++)
+        tr
+          th(scope='row') #{border_json[i].Record.content}
+          td #{border_json[i].Record.tittle}
+
+
