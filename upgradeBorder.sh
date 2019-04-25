@@ -17,12 +17,13 @@ fi
 versionData=$(docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode list --instantiated -C mychannel | grep "Version")
 
 versionData2=${versionData#*Version: }
-version=${versionData2%%,*}
-#echo $version
-upVersion=0.1
-currentVersion=`echo $version + $upVersion|bc`
+currentVersion=${versionData2%%,*}
 #echo $currentVersion
 echo "Current Version : "$currentVersion
+up=0.1
+upVersion=`echo $currentVersion + $up|bc`
+#echo $upVersion
+echo "Up Version : "$upVersion
 
 
 
@@ -35,8 +36,8 @@ echo 'go build success'
 # 이전 버전 chaincode 컨테이너 삭제
 #docker rm -f $(docker ps -aq -f name=dev-peer0.org1.example.com-fabric_border-*)
 
-docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode install -n fabric_border -v $currentVersion -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
-docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode upgrade -o orderer.example.com:7050 -C mychannel -n fabric_border -l "$CC_RUNTIME_LANGUAGE" -v $currentVersion -c '{"Args":[]}' -P "OR ('Org1MSP.member','Org2MSP.member')"
+docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode install -n fabric_border -v $upVersion -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
+docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode upgrade -o orderer.example.com:7050 -C mychannel -n fabric_border -l "$CC_RUNTIME_LANGUAGE" -v $upVersion -c '{"Args":[]}' -P "OR ('Org1MSP.member','Org2MSP.member')"
 sleep 10
 
 cat <<EOF
