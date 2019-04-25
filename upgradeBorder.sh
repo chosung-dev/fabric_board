@@ -7,6 +7,12 @@ starttime=$(date +%s)
 CC_RUNTIME_LANGUAGE=golang
 CC_SRC_PATH=github.com/fabric_border/go
 
+container=$(docker ps -aq -f name='dev-peer0.org1.example.com-fabric_border-*')
+cntContainer=`echo $container | wc -c`
+if [[ ${cntContainer} > 1 ]];then
+        docker rm -f $(docker ps -aq -f name=dev-peer0.org1.example.com-fabric_border-*)
+        echo 'delete previous version'
+fi
 
 rm -r -f ./chaincode/fabric_border/go/go
 cd ./chaincode/fabric_border/go
