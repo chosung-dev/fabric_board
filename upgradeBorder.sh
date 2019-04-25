@@ -22,7 +22,7 @@ version=${versionData2%%,*}
 upVersion=0.1
 currentVersion=`echo $version + $upVersion|bc`
 #echo $currentVersion
-echo "current Version : "$currentVersion
+echo "Current Version : "$currentVersion
 
 
 
