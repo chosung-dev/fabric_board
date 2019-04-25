@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    h1= title
+
+    form#form1(action='repairbord_submit', method='GET')
+        input(type='text', name='id', value= border_id, style='display:none')
+        table.type01
+            tbody
+                tr
+                    th(scope='row') 제목
+                    td
+                        input(type='text', name='tittle', value= border_title)
+                tr
+                    th(scope='row') 내용
+                    td
+                        input(type='text', name='content', value= border_content)
+        .wrap
+            a.button(href='#', onclick="document.getElementById('form1').submit()") 수정
+
