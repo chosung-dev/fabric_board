@@ -157,6 +157,31 @@ func (s *SmartContract) queryAllBordView(APIstub shim.ChaincodeStubInterface) sc
 	return shim.Success(buffer.Bytes())
 }
 
+func (s *SmartContract) addBord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 3")
+	}
+	var bord = Border{Tittle: args[0], Content: args[1]}
+
+
+    startKey := "BORDER0"
+    endKey := "BORDER999"
+    resultsIterator, _ := APIstub.GetStateByRange(startKey, endKey)
+
+    i := 0
+    for resultsIterator.HasNext() {
+       resultsIterator.Next()
+       i = i + 1
+    }
+    resultsIterator.Close()
+
+    bordAsBytes, _ := json.Marshal(bord)
+    //APIstub.PutState(args[0], bordAsBytes)
+    APIstub.PutState("BORDER"+strconv.Itoa(i), bordAsBytes)
+
+	return shim.Success(nil)
+}
+
 // main함수는 테스트에서만 사용이 됩니다.
 func main() {
 	// Create a new Smart Contract
