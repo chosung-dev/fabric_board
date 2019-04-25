@@ -21,7 +21,7 @@ router.get('/creatbord_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
 
-    ccControl.create_bord(tittle, content,function(border_list){
+    ccControl.create_bord(tittle, content,function(value){
         ccControl.query_view(function(border_list){
             border_json = JSON.parse(border_list.toString());
             res.render('index', { title: 'Fabric Border', border_list: border_json});
@@ -29,8 +29,14 @@ router.get('/creatbord_submit', function(req, res) {
     });
 });
 
-router.get('/remove', function(req, res) {
+router.get('/delete', function(req, res) {
     console.log(req.query.border_id);
+    ccControl.delete_bord(req.query.border_id, function(value){
+        ccControl.query_view(function(border_list){
+            border_json = JSON.parse(border_list.toString());
+            res.render('index', { title: 'Fabric Border', border_list: border_json});
+        });
+    })
 });
 
 router.get('/repair', function(req, res) {
@@ -42,7 +48,7 @@ router.get('/repairbord_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
 
-    ccControl.repair_bord(id, tittle, content,function(border_list){
+    ccControl.repair_bord(id, tittle, content,function(value){
         ccControl.query_view(function(border_list){
             border_json = JSON.parse(border_list.toString());
             res.render('index', { title: 'Fabric Border', border_list: border_json});

@@ -12,6 +12,6 @@ block content
           td(style='width : 40px; border-left:hidden; padding-left:-30px')
               a(href='/repair?border_id=#{border_json[i].Key}&border_title=#{border_json[i].Record.tittle}&border_content=#{border_json[i].Record.content}', style='width:100%;  margin:-20px; padding:-10px; color: #BDBDBD;') 수정
           td(style='width : 40px; border-left:hidden; padding-left:-30px')
-              a(href='/remove?border_id=#{border_json[i].Key}', style='width:100%; margin:-20px; padding:-10px; color: #BDBDBD;') 삭제
+              a(href='/delete?border_id=#{border_json[i].Key}', style='width:100%; margin:-20px; padding:-10px; color: #BDBDBD;') 삭제
   .wrap
     a.button(href='createbord') 글 작성

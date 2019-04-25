@@ -20,7 +20,10 @@ type Border struct {
 	Content  string `json:"content"`
 }
 
+var bord_count int
+
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
+    bord_count = 0
 	return shim.Success(nil)
 }
 
@@ -37,7 +40,11 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.queryAllBord(APIstub)
 	} else if function == "queryAllBordView"{
 		return s.queryAllBordView(APIstub)
-	}
+	}else if function == "deleteBord"{
+        return s.deleteBord(APIstub, args)
+    }else if function == "addBord"{
+             return s.addBord(APIstub, args)
+    }
 
 	return shim.Error("Invalid Smart Contract function name.")
 }
@@ -66,7 +73,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 		APIstub.PutState("BORDER"+strconv.Itoa(i), borderAsBytes)
 		i = i + 1
 	}
-
+    bord_count = bord_count +4
 	return shim.Success(nil)
 }
 
@@ -78,6 +85,19 @@ func (s *SmartContract) createBord(APIstub shim.ChaincodeStubInterface, args []s
 
 	bordAsBytes, _ := json.Marshal(bord)
 	APIstub.PutState(args[0], bordAsBytes)
+    bord_count = bord_count+1
+	return shim.Success(nil)
+}
+
+func (s *SmartContract) deleteBord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	var id = args[0]
+
+	err := APIstub.DelState(id)
+
+	if err != nil {
+		return shim.Error("Failed to delete state")
+	}
 
 	return shim.Success(nil)
 }
@@ -164,21 +184,10 @@ func (s *SmartContract) addBord(APIstub shim.ChaincodeStubInterface, args []stri
 	var bord = Border{Tittle: args[0], Content: args[1]}
 
 
-    startKey := "BORDER0"
-    endKey := "BORDER999"
-    resultsIterator, _ := APIstub.GetStateByRange(startKey, endKey)
-
-    i := 0
-    for resultsIterator.HasNext() {
-       resultsIterator.Next()
-       i = i + 1
-    }
-    resultsIterator.Close()
-
     bordAsBytes, _ := json.Marshal(bord)
     //APIstub.PutState(args[0], bordAsBytes)
-    APIstub.PutState("BORDER"+strconv.Itoa(i), bordAsBytes)
-
+    APIstub.PutState("BORDER"+strconv.Itoa(bord_count), bordAsBytes)
+    bord_count = bord_count+1
 	return shim.Success(nil)
 }
 
