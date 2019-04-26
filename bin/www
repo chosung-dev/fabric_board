@@ -1,10 +1,18 @@
 #!/usr/bin/nodejs
 var debug = require('debug')('my-application');
 var app = require('../app');
+const path = require('path');
 
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-  console.log("server up_ http://localhost:3000");
+
+  var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
+
+  ccControl.init_user1(function(value){
+    if(value == "Sucess"){
+      debug('Express server listening on port ' + server.address().port);
+      console.log("server up_ http://localhost:3000");
+    }
+  });
 });

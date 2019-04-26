@@ -6,7 +6,6 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-
   ccControl.query_view(function(board_list){
     board_json = JSON.parse(board_list.toString());
     res.render('index', { title: 'Fabric Board', board_list: board_json});
@@ -20,7 +19,6 @@ router.get('/createboard', function(req, res) {
 router.get('/creatboard_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
-
     ccControl.create_board(tittle, content,function(value){
         ccControl.query_view(function(board_list){
             board_json = JSON.parse(board_list.toString());
@@ -47,7 +45,6 @@ router.get('/repairboard_submit', function(req, res) {
     var id = req.query.id;
     var tittle = req.query.tittle;
     var content = req.query.content;
-
     ccControl.repair_board(id, tittle, content,function(value){
         ccControl.query_view(function(board_list){
             board_json = JSON.parse(board_list.toString());

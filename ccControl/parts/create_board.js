@@ -4,13 +4,6 @@
 
 'use strict';
 
-
-/*
- * SPDX-License-Identifier: Apache-2.0
- */
-
-'use strict';
-
 module.exports = function(){
     const { FileSystemWallet, Gateway } = require('fabric-network');
     const fs = require('fs');
