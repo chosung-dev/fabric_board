@@ -10,12 +10,13 @@ CC_SRC_PATH=github.com/fabric_board/go
 versionData=$(docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode list --instantiated -C mychannel | grep "Version")
 
 versionData2=${versionData#*Version: }
-version=${versionData2%%,*}
-#echo $version
-upVersion=0.1
-currentVersion=`echo $version + $upVersion|bc`
+currentVersion=${versionData2%%,*}
 #echo $currentVersion
 echo "Current Version : "$currentVersion
+up=0.1
+upVersion=`echo $currentVersion + $up|bc`
+#echo $upVersion
+echo "Up Version : "$upVersion
 
 # go file build
 rm -r -f ./chaincode/fabric_board/go/go
