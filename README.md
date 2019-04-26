@@ -54,3 +54,5 @@ npm install
 ```
 
 fabric_board/bin/www 실행하여 http://localhost:3000 접속 확인.
+
+![readmeImage01.png](./readmeImage/readmeImage01.png)
