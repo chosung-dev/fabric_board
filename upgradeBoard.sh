@@ -33,11 +33,13 @@ if [[ ${cntContainer} > 1 ]];then
         echo 'delete previous version'
 fi
 
-# chaincode install
-docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode install -n fabric_board -v $currentVersion -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
 
+# chaincode install
+docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode install -n fabric_board -v $upVersion -p "$CC_SRC_PATH" -l "$CC_RUNTIME_LANGUAGE"
+echo 'chaincode install success'
 # chaincode upgrade
-docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode upgrade -o orderer.example.com:7050 -C mychannel -n fabric_board -l "$CC_RUNTIME_LANGUAGE" -v $currentVersion -c '{"Args":[]}' -P "OR ('Org1MSP.member','Org2MSP.member')"
+docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode upgrade -o orderer.example.com:7050 -C mychannel -n fabric_board -l "$CC_RUNTIME_LANGUAGE" -v $upVersion -c '{"Args":[]}' -P "OR ('Org1MSP.member','Org2MSP.member')"
+echo 'chaincode upgrade success'
 sleep 10
 
 cat <<EOF
