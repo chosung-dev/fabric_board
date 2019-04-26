@@ -40,7 +40,6 @@ echo 'chaincode install success'
 # chaincode upgrade
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp" cli peer chaincode upgrade -o orderer.example.com:7050 -C mychannel -n fabric_board -l "$CC_RUNTIME_LANGUAGE" -v $upVersion -c '{"Args":[]}' -P "OR ('Org1MSP.member','Org2MSP.member')"
 echo 'chaincode upgrade success'
-sleep 10
 
 cat <<EOF
 
