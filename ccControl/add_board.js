@@ -36,13 +36,13 @@ async function main() {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('fabric_border');
+        const contract = network.getContract('fabric_board');
 
         // Submit the specified transaction.
         var args = process.argv;
         console.log(args);
 
-        await contract.submitTransaction('addBord',args[2],args[3]);
+        await contract.submitTransaction('addBoard',args[2],args[3]);
         console.log('Transaction has been submitted');
         // Disconnect from the gateway.
         await gateway.disconnect();

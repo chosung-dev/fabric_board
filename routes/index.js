@@ -7,51 +7,51 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 /* GET home page. */
 router.get('/', function(req, res) {
 
-  ccControl.query_view(function(border_list){
-    border_json = JSON.parse(border_list.toString());
-    res.render('index', { title: 'Fabric Border', border_list: border_json});
+  ccControl.query_view(function(board_list){
+    board_json = JSON.parse(board_list.toString());
+    res.render('index', { title: 'Fabric Board', board_list: board_json});
   });
 });
 
-router.get('/createbord', function(req, res) {
-  res.render('createbord', { title: 'Create Bord'});
+router.get('/createboard', function(req, res) {
+  res.render('createboard', { title: 'Create Board'});
 });
 
-router.get('/creatbord_submit', function(req, res) {
+router.get('/creatboard_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
 
-    ccControl.create_bord(tittle, content,function(value){
-        ccControl.query_view(function(border_list){
-            border_json = JSON.parse(border_list.toString());
-            res.render('index', { title: 'Fabric Border', border_list: border_json});
+    ccControl.create_board(tittle, content,function(value){
+        ccControl.query_view(function(board_list){
+            board_json = JSON.parse(board_list.toString());
+            res.render('index', { title: 'Fabric Board', board_list: board_json});
         });
     });
 });
 
 router.get('/delete', function(req, res) {
-    console.log(req.query.border_id);
-    ccControl.delete_bord(req.query.border_id, function(value){
-        ccControl.query_view(function(border_list){
-            border_json = JSON.parse(border_list.toString());
-            res.render('index', { title: 'Fabric Border', border_list: border_json});
+    console.log(req.query.board_id);
+    ccControl.delete_board(req.query.board_id, function(value){
+        ccControl.query_view(function(board_list){
+            board_json = JSON.parse(board_list.toString());
+            res.render('index', { title: 'Fabric Board', board_list: board_json});
         });
     })
 });
 
 router.get('/repair', function(req, res) {
-    res.render('repairbord', { title: 'Change Bord',border_id: req.query.border_id, border_title: req.query.border_title, border_content:req.query.border_content});
+    res.render('repairboard', { title: 'Change Board',board_id: req.query.board_id, board_title: req.query.board_title, board_content:req.query.board_content});
 });
 
-router.get('/repairbord_submit', function(req, res) {
+router.get('/repairboard_submit', function(req, res) {
     var id = req.query.id;
     var tittle = req.query.tittle;
     var content = req.query.content;
 
-    ccControl.repair_bord(id, tittle, content,function(value){
-        ccControl.query_view(function(border_list){
-            border_json = JSON.parse(border_list.toString());
-            res.render('index', { title: 'Fabric Border', border_list: border_json});
+    ccControl.repair_board(id, tittle, content,function(value){
+        ccControl.query_view(function(board_list){
+            board_json = JSON.parse(board_list.toString());
+            res.render('index', { title: 'Fabric Board', board_list: board_json});
         });
     });
 });

@@ -20,7 +20,7 @@ module.exports = function(){
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     const ccp = JSON.parse(ccpJSON);
     var ccControl = {
-        repair_bord : async function(id, title, content, callbackFunc){
+        create_board : async function(title, content, callbackFunc){
             try {
                 // Create a new file system based wallet for managing identities.
                 const walletPath = path.join(process.cwd(),'..','ccControl' ,'wallet');
@@ -43,12 +43,12 @@ module.exports = function(){
                 const network = await gateway.getNetwork('mychannel');
 
                 // Get the contract from the network.
-                const contract = network.getContract('fabric_border');
+                const contract = network.getContract('fabric_board');
 
                 // Submit the specified transaction.
                 var args = process.argv;
                 console.log(args);
-                await contract.submitTransaction('createBord',id, title, content);
+                await contract.submitTransaction('addBoard',title, content);
                 // Disconnect from the gateway.
                 await gateway.disconnect();
 

@@ -20,7 +20,7 @@ module.exports = function(){
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     const ccp = JSON.parse(ccpJSON);
     var ccControl = {
-        delete_bord : async function(id, callbackFunc){
+        delete_board : async function(id, callbackFunc){
             try {
                 // Create a new file system based wallet for managing identities.
                 const walletPath = path.join(process.cwd(),'..','ccControl' ,'wallet');
@@ -43,12 +43,12 @@ module.exports = function(){
                 const network = await gateway.getNetwork('mychannel');
 
                 // Get the contract from the network.
-                const contract = network.getContract('fabric_border');
+                const contract = network.getContract('fabric_board');
 
                 // Submit the specified transaction.
                 var args = process.argv;
                 console.log(args);
-                await contract.submitTransaction('deleteBord',id);
+                await contract.submitTransaction('deleteBoard',id);
                 // Disconnect from the gateway.
                 await gateway.disconnect();
 

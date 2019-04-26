@@ -15,41 +15,41 @@ import (
 type SmartContract struct {
 }
 
-type Border struct {
+type Board struct {
 	Tittle   string `json:"tittle"`
 	Content  string `json:"content"`
 }
 
-var bord_count int
+var board_count int
 
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
-    bord_count = 0
+    board_count = 0
 	return shim.Success(nil)
 }
 
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	function, args := APIstub.GetFunctionAndParameters()
-	if function == "queryBorder" {
-		return s.queryBorder(APIstub, args)
+	if function == "queryBoard" {
+		return s.queryBoard(APIstub, args)
 	} else if function == "initLedger" {
 		return s.initLedger(APIstub)
-	} else if function == "createBord" {
-		return s.createBord(APIstub, args)
-	} else if function == "queryAllBord" {
-		return s.queryAllBord(APIstub)
-	} else if function == "queryAllBordView"{
-		return s.queryAllBordView(APIstub)
-	}else if function == "deleteBord"{
-        return s.deleteBord(APIstub, args)
-    }else if function == "addBord"{
-             return s.addBord(APIstub, args)
+	} else if function == "createBoard" {
+		return s.createBoard(APIstub, args)
+	} else if function == "queryAllBoard" {
+		return s.queryAllBoard(APIstub)
+	} else if function == "queryAllBoardView"{
+		return s.queryAllBoardView(APIstub)
+	}else if function == "deleteBoard"{
+        return s.deleteBoard(APIstub, args)
+    }else if function == "addBoard"{
+             return s.addBoard(APIstub, args)
     }
 
 	return shim.Error("Invalid Smart Contract function name.")
 }
 
-func (s *SmartContract) queryBorder(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -60,36 +60,36 @@ func (s *SmartContract) queryBorder(APIstub shim.ChaincodeStubInterface, args []
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
-	cars := []Border{
-		Border{Tittle: "테스트 제목입니다_01", Content: "테스트 내용입니다_01"},
-		Border{Tittle: "테스트 제목입니다_02", Content: "테스트 내용입니다_02"},
-		Border{Tittle: "테스트 제목입니다_03", Content: "테스트 내용입니다_03"},
-		Border{Tittle: "테스트 제목입니다_04", Content: "테스트 내용입니다_04"},
+	cars := []Board{
+		Board{Tittle: "테스트 제목입니다_01", Content: "테스트 내용입니다_01"},
+		Board{Tittle: "테스트 제목입니다_02", Content: "테스트 내용입니다_02"},
+		Board{Tittle: "테스트 제목입니다_03", Content: "테스트 내용입니다_03"},
+		Board{Tittle: "테스트 제목입니다_04", Content: "테스트 내용입니다_04"},
 	}
 
 	i := 0
 	for i < len(cars) {
-		borderAsBytes, _ := json.Marshal(cars[i])
-		APIstub.PutState("BORDER"+strconv.Itoa(i), borderAsBytes)
+		boardAsBytes, _ := json.Marshal(cars[i])
+		APIstub.PutState("BOARD"+strconv.Itoa(i), boardAsBytes)
 		i = i + 1
 	}
-    bord_count = bord_count +4
+    board_count = board_count +4
 	return shim.Success(nil)
 }
 
-func (s *SmartContract) createBord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) createBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
-	var bord = Border{Tittle: args[1], Content: args[2]}
+	var board = Board{Tittle: args[1], Content: args[2]}
 
-	bordAsBytes, _ := json.Marshal(bord)
-	APIstub.PutState(args[0], bordAsBytes)
-    bord_count = bord_count+1
+	boardAsBytes, _ := json.Marshal(board)
+	APIstub.PutState(args[0], boardAsBytes)
+    board_count = board_count+1
 	return shim.Success(nil)
 }
 
-func (s *SmartContract) deleteBord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) deleteBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
 	var id = args[0]
 
@@ -102,10 +102,10 @@ func (s *SmartContract) deleteBord(APIstub shim.ChaincodeStubInterface, args []s
 	return shim.Success(nil)
 }
 
-func (s *SmartContract) queryAllBord(APIstub shim.ChaincodeStubInterface) sc.Response {
+func (s *SmartContract) queryAllBoard(APIstub shim.ChaincodeStubInterface) sc.Response {
 
-	startKey := "BORDER0"
-	endKey := "BORDER999"
+	startKey := "BOARD0"
+	endKey := "BOARD999"
 
 	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
 	if err != nil {
@@ -145,10 +145,10 @@ func (s *SmartContract) queryAllBord(APIstub shim.ChaincodeStubInterface) sc.Res
 	return shim.Success(buffer.Bytes())
 }
 
-func (s *SmartContract) queryAllBordView(APIstub shim.ChaincodeStubInterface) sc.Response {
+func (s *SmartContract) queryAllBoardView(APIstub shim.ChaincodeStubInterface) sc.Response {
 
-	startKey := "BORDER0"
-	endKey := "BORDER999"
+	startKey := "BOARD0"
+	endKey := "BOARD999"
 
 	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
 	if err != nil {
@@ -164,30 +164,30 @@ func (s *SmartContract) queryAllBordView(APIstub shim.ChaincodeStubInterface) sc
 		if err != nil {
 			return shim.Error(err.Error())
 		}
-		var bord_info Border
-		err = json.Unmarshal(queryResponse.Value, &bord_info)
+		var board_info Board
+		err = json.Unmarshal(queryResponse.Value, &board_info)
 
 		buffer.WriteString("Tittle :")
-		buffer.WriteString(bord_info.Tittle)
+		buffer.WriteString(board_info.Tittle)
 
 		buffer.WriteString("\tContent :")
-		buffer.WriteString(bord_info.Content+"\n")
+		buffer.WriteString(board_info.Content+"\n")
 
 	}
 	return shim.Success(buffer.Bytes())
 }
 
-func (s *SmartContract) addBord(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
-	var bord = Border{Tittle: args[0], Content: args[1]}
+	var board = Board{Tittle: args[0], Content: args[1]}
 
 
-    bordAsBytes, _ := json.Marshal(bord)
-    //APIstub.PutState(args[0], bordAsBytes)
-    APIstub.PutState("BORDER"+strconv.Itoa(bord_count), bordAsBytes)
-    bord_count = bord_count+1
+    boardAsBytes, _ := json.Marshal(board)
+    //APIstub.PutState(args[0], boardAsBytes)
+    APIstub.PutState("BOARD"+strconv.Itoa(board_count), boardAsBytes)
+    board_count = board_count+1
 	return shim.Success(nil)
 }
 
