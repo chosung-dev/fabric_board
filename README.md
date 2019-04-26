@@ -8,7 +8,7 @@ fabric-board 다운로드
 git clone https://github.com/chosung-dev/fabric_board
 ```
 
-fabric-samples 디렉토리에 basic-network 디렉토리를 복사해서 집어넣는다. 
+fabric-samples 디렉토리에 hyperledger/fabric/basic-network(https://github.com/chosung-dev/fabric_board/basic-network) 디렉토리를 복사해서 집어넣는다. 
 
 basic-network/docker-compose.yml 파일을 다음과 같이 수정
 
