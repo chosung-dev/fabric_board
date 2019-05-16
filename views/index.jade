@@ -3,8 +3,17 @@ extends layout
 block content
   h1= title
 
-  table.type01
+  table.type01(style='margin-top:-40px')
+
     tbody
+      tr
+        th(scope='row' style='border-left:hidden; border-top:hidden;')
+          td(style='border-left:hidden; border-top:hidden;')
+          td(style='width : 40px; border-left:hidden; border-top:hidden; padding-left:-30px')
+          td(style='width : 40px; border-left:hidden; border-top:hidden; border-right:hidden; padding-left:-30px')
+            label.switch
+              input(type='checkbox')
+              span.slider.round
       -for(var i=0; i<board_json.length; i++)
         tr
           th(scope='row') #{board_json[i].Record.tittle}

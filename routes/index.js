@@ -12,6 +12,7 @@ router.get('/', function(req, res) {
   });
 });
 
+
 router.get('/createboard', function(req, res) {
   res.render('createboard', { title: 'Create Board'});
 });
