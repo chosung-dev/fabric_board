@@ -27,22 +27,39 @@ if [ "$?" -ne 0 ]; then
   exit 1
 fi
 
-# generate channel configuration transaction
+
+echo
+echo "#################################################################"
+echo "### Generating channel configuration transaction 'channel.tx' ###"
+echo "#################################################################"
+echo
 configtxgen -profile ThreeOrgChannel -outputCreateChannelTx ./config/channel.tx -channelID $CHANNEL_NAME
+res=$?
 if [ "$?" -ne 0 ]; then
   echo "Failed to generate channel configuration transaction..."
   exit 1
 fi
 
-# generate anchor peer transaction
+
+echo 
+echo "#################################################################"
+echo "#######    Generating anchor peer update for Org1MSP   ##########"
+echo "#################################################################"
+echo
 configtxgen -profile ThreeOrgChannel -outputAnchorPeersUpdate ./config/Org1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org1MSP
+res=$?
 if [ "$?" -ne 0 ]; then
   echo "Failed to generate anchor peer update for Org1MSP..."
   exit 1
 fi
 
-# generate anchor peer transaction
+echo 
+echo "#################################################################"
+echo "#######    Generating anchor peer update for Org3MSP   ##########"
+echo "#################################################################"
+echo
 configtxgen -profile ThreeOrgChannel -outputAnchorPeersUpdate ./config/Org3MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org3MSP
+res=$?
 if [ "$?" -ne 0 ]; then
   echo "Failed to generate anchor peer update for Org3MSP..."
   exit 1
