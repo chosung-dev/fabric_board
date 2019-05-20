@@ -24,6 +24,15 @@ Organizations:
         AnchorPeers:
             - Host: peer0.org3.example.com
               Port: 7051   
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_3: true
+    Orderer: &OrdererCapabilities
+        V1_1: true
+    Application: &ApplicationCapabilities
+        V1_3: true
+        V1_2: false
+        V1_1: false
 
 Application: &ApplicationDefaults
 
@@ -50,6 +59,8 @@ Profiles:
             <<: *OrdererDefaults
             Organizations:
                 - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
         Consortiums:
             SampleConsortium:
                 Organizations:
@@ -62,3 +73,5 @@ Profiles:
             Organizations:
                 - *Org1
                 - *Org3
+            Capabilities:
+                <<: *ApplicationCapabilities
