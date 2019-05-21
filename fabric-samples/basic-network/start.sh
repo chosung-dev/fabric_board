@@ -16,7 +16,7 @@ docker-compose -f docker-compose.yml down
 docker-compose -f docker-compose.yml up -d orderer.example.com \
             ca.org1.example.com peer0.org1.example.com \
             ca.org3.example.com peer0.org3.example.com \
-            cli
+            cli couchdb0 couchdb1
 
 
 docker ps -a
