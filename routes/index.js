@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-
+var user = 'user1';
 var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  ccControl.query_view(function(board_list){
+  ccControl.query_view(user, function(board_list){
     board_json = JSON.parse(board_list.toString());
     res.render('index', { title: 'Fabric Board', board_list: board_json});
   });
