@@ -24,22 +24,41 @@ module.exports = function(){
     const registerUser = require('./registerUser.js')();
     for (const func in registerUser) ccC[func] = registerUser[func];
 
+    const enrollAdmin3 = require('./enrollAdmin_org3.js')();
+    for (const func in enrollAdmin3) ccC[func] = enrollAdmin3[func];
+
+    const registerUser3 = require('./registerUser_org3.js')();
+    for (const func in registerUser3) ccC[func] = registerUser3[func];
+
 
     ccC.init_user1 = function(callbackFunc){
         var testFolder = '../ccControl/wallet';
         var fs = require('fs');
+        var user1 = false;
+        var user3 = false;
 
         fs.readdir(testFolder, function(error, filelist){
             if(error==null){
-                if(filelist.indexOf('user1')!= -1){
-                    callbackFunc("Sucess");
+                //if(filelist.indexOf('user1')!= -1){
+                if((filelist.indexOf('user1')!= -1)&&(filelist.indexOf('user3')!= -1)){
+                    callbackFunc("Success");
                     return;
                 }
             }
             ccC.enrollAdmin(function(value){
-                ccC.registerUser();
-                callbackFunc("Sucess");
+                if(value=='Success'){            
+                    ccC.registerUser();
+                    ccC.enrollAdmin3(function(value){
+                        if(value=='Success'){
+                            ccC.registerUser3();
+                            if(user1==true && user3==true){
+                                callbackFunc("Success");
+                            }
+                        }
+                    });
+                }
             });
+
         });
     };
 
