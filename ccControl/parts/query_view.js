@@ -13,7 +13,7 @@ module.exports = function(){
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     const ccp = JSON.parse(ccpJSON);
     var ccControl = {
-        query_view : async function(callbackFunc){
+        query_view : async function(user, callbackFunc){
             try {
                 // Create a new file system based wallet for managing identities.
                 const walletPath = path.join(process.cwd(),'..','ccControl' ,'wallet');
@@ -21,7 +21,7 @@ module.exports = function(){
                 console.log(`Wallet path: ${walletPath}`);
 
                 // Check to see if we've already enrolled the user.
-                const userExists = wallet.exists('user1');
+                const userExists = wallet.exists(user);
                 if (!userExists) {
                     console.log('An identity for the user "user1" does not exist in the wallet');
                     console.log('Run the registerUser.js application before retrying');
@@ -30,7 +30,7 @@ module.exports = function(){
 
                 // Create a new gateway for connecting to our peer node.
                 const gateway = new Gateway();
-                await gateway.connect(ccp, { wallet, identity: 'user1', discovery: { enabled: false } });
+                await gateway.connect(ccp, { wallet, identity: user, discovery: { enabled: false } });
 
                 // Get the network (channel) our contract is deployed to.
                 const network = await gateway.getNetwork('mychannel');
