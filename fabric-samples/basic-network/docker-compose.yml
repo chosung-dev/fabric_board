@@ -23,13 +23,10 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca.org1.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
       - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/a69e2947df16e5823db32eeda2e03cac8bf2d6da9dc89445d7e492523167503d_sk
-      # - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      # - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4239aa0dcd76daeeb8ba0cda701851d14504d31aad1b2ddddbac6a57365e497c_sk
       - FABRIC_CA_SERVER_PORT=7054
     ports:
       - "17054:7054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
-    #command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
       - ./crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
     container_name: ca.org1.example.com
@@ -44,12 +41,9 @@ services:
       - FABRIC_CA_SERVER_CA_NAME=ca.org3.example.com
       - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org3.example.com-cert.pem
       - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/995298d53f6bb7fcb8f0215b00bc7a9fab8c9ac6d859349e8be837719c62e42b_sk
-      # - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
-      # - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/4239aa0dcd76daeeb8ba0cda701851d14504d31aad1b2ddddbac6a57365e497c_sk
       - FABRIC_CA_SERVER_PORT=7054
     ports:
       - "37054:7054"
-    #command: sh -c 'fabric-ca-server start -b admin3:admin3pw'
     command: sh -c 'fabric-ca-server start -b admin:adminpw'
     volumes:
       - ./crypto-config/peerOrganizations/org3.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
@@ -131,7 +125,6 @@ services:
         - ./crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls:/etc/hyperledger/fabric/tls   
     depends_on:
       - orderer.example.com
-      # - couchdb
       - couchdb0
     networks:
       - basic
@@ -162,6 +155,7 @@ services:
       - couchdb1
     networks:
       - basic
+
   couchdb0:
     container_name: couchdb0
     image: hyperledger/fabric-couchdb
@@ -184,18 +178,6 @@ services:
     networks:
       - basic
 
-  couchdb:
-    container_name: couchdb
-    image: hyperledger/fabric-couchdb
-    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
-    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
-    environment:
-      - COUCHDB_USER=
-      - COUCHDB_PASSWORD=
-    ports:
-      - 5984:5984
-    networks:
-      - basic
 
   cli:
     container_name: cli
@@ -206,12 +188,14 @@ services:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
       - FABRIC_LOGGING_SPEC=info
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.org3.example.com:7051
-      - CORE_PEER_LOCALMSPID=Org3MSP
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
-      #- CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-      #- CORE_PEER_LOCALMSPID=Org1MSP
-      #- CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+     # Org1
+      - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+      - CORE_PEER_LOCALMSPID=Org1MSP
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+      # Org3
+      #- CORE_PEER_ADDRESS=peer0.org3.example.com:7051
+      #- CORE_PEER_LOCALMSPID=Org3MSP
+      #- CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
       #- CORE_CHAINCODE_KEEPALIVE=10
       # Enable TLS
       #- CORE_PEER_TLS_ENABLED=false
