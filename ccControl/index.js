@@ -60,6 +60,7 @@ module.exports = function(){
                     }
                 });
             }
+            callbackFunc("Success");
         });
     };
     return ccC;

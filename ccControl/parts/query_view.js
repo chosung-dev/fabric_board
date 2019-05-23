@@ -47,7 +47,7 @@ module.exports = function(){
 
             } catch (error) {
                 console.error(`Failed to evaluate transaction: ${error}`);
-                process.exit(1);
+                callbackFunc("{}")
             }
         }
     };
