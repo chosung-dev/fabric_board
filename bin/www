@@ -14,5 +14,9 @@ var server = app.listen(app.get('port'), function() {
       debug('Express server listening on port ' + server.address().port);
       console.log("server up_ http://localhost:3000");
     }
+    else{
+      console.log("Can\'t start the server!");
+      process.exit(1);
+    }
   });
 });
