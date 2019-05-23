@@ -6,7 +6,7 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  if(req.query.user!=null){
+  if(req.query.user!=null && (req.query.user=="user1" || req.query.user=="user3")){
       user = req.query.user;
   }
   console.log(user);
@@ -25,7 +25,7 @@ router.get('/creatboard_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
     ccControl.create_board(tittle, content,function(value){
-        ccControl.query_view(function(board_list){
+        ccControl.query_view(user, function(board_list){
             board_json = JSON.parse(board_list.toString());
             res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
         });
@@ -35,7 +35,7 @@ router.get('/creatboard_submit', function(req, res) {
 router.get('/delete', function(req, res) {
     console.log(req.query.board_id);
     ccControl.delete_board(req.query.board_id, function(value){
-        ccControl.query_view(function(board_list){
+        ccControl.query_view(user, function(board_list){
             board_json = JSON.parse(board_list.toString());
             res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
         });
@@ -51,7 +51,7 @@ router.get('/repairboard_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
     ccControl.repair_board(id, tittle, content,function(value){
-        ccControl.query_view(function(board_list){
+        ccControl.query_view(user, function(board_list){
             board_json = JSON.parse(board_list.toString());
             res.render('index', { title: 'Fabric Board', board_list: board_json});
         });
