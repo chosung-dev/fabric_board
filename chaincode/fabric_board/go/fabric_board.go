@@ -93,7 +93,7 @@ func (s *SmartContract) deleteBoard(APIstub shim.ChaincodeStubInterface, args []
 
 	var id = args[0]
 
-	err := APIstub.DelState(id)
+        err := APIstub.DelPrivateData("collectionPrivateBoard", id)
 
 	if err != nil {
 		return shim.Error("Failed to delete state")
