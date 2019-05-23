@@ -7,9 +7,9 @@ block content
     function check(chkbox) {
       if (chkbox.checked == true) {
         alert("ORG1 SELECT");
-        location.href = document.location.href.substring(0,document.location.href.indexOf("?"))+"?user=user1";
+        location.href = "http://localhost:3000/?user=user1";
       } else {
-        location.href = document.location.href.substring(0,document.location.href.indexOf("?")) + "?user=user3";
+        location.href = "http://localhost:3000/?user=user3";
         alert("ORG3 SELECT");
       }
     }
