@@ -6,7 +6,7 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  if(req.query.user!=null && (req.query.user=="user1" || req.query.user=="user3")){
+  if(req.query.user!=null){
       user = req.query.user;
   }
   console.log(user);
