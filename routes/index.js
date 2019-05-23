@@ -6,9 +6,13 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
 /* GET home page. */
 router.get('/', function(req, res) {
+  if(req.query.user!=null){
+      user = req.query.user;
+  }
+  console.log(user);
   ccControl.query_view(user, function(board_list){
     board_json = JSON.parse(board_list.toString());
-    res.render('index', { title: 'Fabric Board', board_list: board_json});
+    res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
   });
 });
 
@@ -23,7 +27,7 @@ router.get('/creatboard_submit', function(req, res) {
     ccControl.create_board(tittle, content,function(value){
         ccControl.query_view(function(board_list){
             board_json = JSON.parse(board_list.toString());
-            res.render('index', { title: 'Fabric Board', board_list: board_json});
+            res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
         });
     });
 });
@@ -33,7 +37,7 @@ router.get('/delete', function(req, res) {
     ccControl.delete_board(req.query.board_id, function(value){
         ccControl.query_view(function(board_list){
             board_json = JSON.parse(board_list.toString());
-            res.render('index', { title: 'Fabric Board', board_list: board_json});
+            res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
         });
     })
 });

@@ -1,10 +1,21 @@
 extends layout
 
+
 block content
+
+  script(language='javascript').
+    function check(chkbox) {
+      if (chkbox.checked == true) {
+        alert("ORG1 SELECT");
+        location.href = document.location.href.substring(0,document.location.href.indexOf("?"))+"?user=user1";
+      } else {
+        location.href = document.location.href.substring(0,document.location.href.indexOf("?")) + "?user=user3";
+        alert("ORG3 SELECT");
+      }
+    }
+
   h1= title
-
   table.type01(style='margin-top:-40px')
-
     tbody
       tr
         th(scope='row' style='border-left:hidden; border-top:hidden;')
@@ -12,8 +23,12 @@ block content
           td(style='width : 40px; border-left:hidden; border-top:hidden; padding-left:-30px')
           td(style='width : 40px; border-left:hidden; border-top:hidden; border-right:hidden; padding-left:-30px')
             label.switch
-              input(type='checkbox')
+              if(user=='user1')
+                input(type='checkbox' checked onClick="check(this);")
+              else
+                input(type='checkbox' onClick="check(this);")
               span.slider.round
+
       -for(var i=0; i<board_json.length; i++)
         tr
           th(scope='row') #{board_json[i].Record.tittle}
