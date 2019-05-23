@@ -10,7 +10,7 @@ var server = app.listen(app.get('port'), function() {
   var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 
   ccControl.init_user1(function(value){
-    if(value == "Sucess"){
+    if(value == "Success"){
       debug('Express server listening on port ' + server.address().port);
       console.log("server up_ http://localhost:3000");
     }

@@ -29,7 +29,7 @@ module.exports = function(){
                 const adminExists = await wallet.exists('admin');
                 if (adminExists) {
                     console.log('An identity for the admin user "admin" already exists in the wallet');
-                    callFunction("Sucess");
+                    callFunction("Success");
                     return;
                 }
 
@@ -39,7 +39,7 @@ module.exports = function(){
                 wallet.import('admin', identity);
                 console.log('Successfully enrolled admin user "admin" and imported it into the wallet');
                 await sleep(5000);
-                callFunction("Sucess")
+                callFunction("Success")
             } catch (error) {
                 console.error(`Failed to enroll admin user "admin": ${error}`);
                 process.exit(1);

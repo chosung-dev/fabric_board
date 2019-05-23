@@ -34,33 +34,33 @@ module.exports = function(){
     ccC.init_user1 = function(callbackFunc){
         var testFolder = '../ccControl/wallet';
         var fs = require('fs');
-        var user1 = false;
-        var user3 = false;
-
         fs.readdir(testFolder, function(error, filelist){
-            if(error==null){
-                //if(filelist.indexOf('user1')!= -1){
-                if((filelist.indexOf('user1')!= -1)&&(filelist.indexOf('user3')!= -1)){
-                    callbackFunc("Success");
-                    return;
-                }
+            if(error!=null){
+                //wallet 디렉토리가 없을 경우
             }
-            ccC.enrollAdmin(function(value){
-                if(value=='Success'){            
-                    ccC.registerUser();
-                    ccC.enrollAdmin3(function(value){
-                        if(value=='Success'){
-                            ccC.registerUser3();
-                            if(user1==true && user3==true){
-                                callbackFunc("Success");
-                            }
-                        }
-                    });
-                }
-            });
+            if((filelist.indexOf('user1') == -1)){
+                ccC.enrollAdmin(function(value){
+                    if(value=='Success'){
+                        ccC.registerUser();
+                    }
+                    else{
+                        callbackFunc("False");
+                    }
+                });
+            }
 
+            if((filelist.indexOf('user3') == -1)){
+                ccC.enrollAdmin3(function(value){
+                    if(value=='Success'){
+                        ccC.registerUser3();
+                        callbackFunc("Success");
+                    }
+                    else{
+                        callbackFunc("False");
+                    }
+                });
+            }
         });
     };
-
     return ccC;
 };
