@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
   if(req.query.user!=null){
       user = req.query.user;
   }
-  console.log(user);
   ccControl.query_view(user, function(board_list){
     board_json = JSON.parse(board_list.toString());
     res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
@@ -24,7 +23,7 @@ router.get('/createboard', function(req, res) {
 router.get('/creatboard_submit', function(req, res) {
     var tittle = req.query.tittle;
     var content = req.query.content;
-    ccControl.create_board(tittle, content,function(value){
+    ccControl.create_board(user, tittle, content,function(value){
         ccControl.query_view(user, function(board_list){
             board_json = JSON.parse(board_list.toString());
             res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
@@ -53,7 +52,7 @@ router.get('/repairboard_submit', function(req, res) {
     ccControl.repair_board(id, tittle, content,function(value){
         ccControl.query_view(user, function(board_list){
             board_json = JSON.parse(board_list.toString());
-            res.render('index', { title: 'Fabric Board', board_list: board_json});
+            res.render('index', { title: 'Fabric Board', board_list: board_json, user:user});
         });
     });
 });

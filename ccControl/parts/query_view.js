@@ -23,7 +23,7 @@ module.exports = function(){
                 // Check to see if we've already enrolled the user.
                 const userExists = wallet.exists(user);
                 if (!userExists) {
-                    console.log('An identity for the user "user1" does not exist in the wallet');
+                    console.log('An identity for the user "user" does not exist in the wallet');
                     console.log('Run the registerUser.js application before retrying');
                     return;
                 }
@@ -41,12 +41,16 @@ module.exports = function(){
                 // Evaluate the specified transaction.
                 // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
                 // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-                const result = await contract.evaluateTransaction('queryAllBoard');
-                //console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-                callbackFunc(result)
-
+                // collectionBoard
+                // collectionPrivateBoard
+                const result = await contract.evaluateTransaction('queryAllBoard', 'collectionBoard');
+                try{
+                    const result2 = await contract.evaluateTransaction('queryAllBoard', 'collectionPrivateBoard');
+                    callbackFunc(result.toString().substring(0,result.toString().length-1)+","+result2.toString().substring(1,result2.toString().length))
+                } catch (error){
+                    callbackFunc(result)
+                }
             } catch (error) {
-                console.error(`Failed to evaluate transaction: ${error}`);
                 callbackFunc("{}")
             }
         }

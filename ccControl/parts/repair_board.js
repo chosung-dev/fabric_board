@@ -40,8 +40,11 @@ module.exports = function(){
 
                 // Submit the specified transaction.
                 var args = process.argv;
-                console.log(args);
-                await contract.submitTransaction('createBoard',id, title, content);
+                if(user =="user1"){
+                    await contract.submitTransaction('createBoard',id, title, content, "collectionPrivateBoard");
+                }else{
+                    await contract.submitTransaction('createBoard',id, title, content, "collectionBoard");
+                }
                 // Disconnect from the gateway.
                 await gateway.disconnect();
 

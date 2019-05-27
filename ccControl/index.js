@@ -45,6 +45,7 @@ module.exports = function(){
                     }
                     else{
                         callbackFunc("False");
+                        return ccC;
                     }
                 });
             }
@@ -54,13 +55,17 @@ module.exports = function(){
                     if(value=='Success'){
                         ccC.registerUser3();
                         callbackFunc("Success");
+                        return ccC;
                     }
                     else{
                         callbackFunc("False");
+                        return ccC;
                     }
                 });
+            }else{
+                callbackFunc("Success");
+                return ccC;
             }
-            callbackFunc("Success");
         });
     };
     return ccC;
