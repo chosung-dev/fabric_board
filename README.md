@@ -3,7 +3,7 @@
 #### 01.작업환경
 
 ```
-fabric ver 1.4.2
+fabric ver 1.4.1
 node ver 8.10.0
 docker ver 18.09.5
 ```
