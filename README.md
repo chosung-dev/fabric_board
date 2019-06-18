@@ -12,8 +12,8 @@ fabric-samples 디렉토리에 hyperledger/fabric-samples/basic-network(https://
 ```
 cd fabric_board
 git clone https://github.com/hyperledger/fabric-samples
-cp -r fabric-samples/basic-network .
-rm -rf fabric-samples
+cd fabric-samples
+find . ! -path "./basic-network*" | cut -d "." -f2 | cut -d "/" -f2 | xargs rm -rf {} \;
 ```
 설치된 최종 디렉토리 경로는 `fabric_board/fabric-samples/basic-network`이다.
 
