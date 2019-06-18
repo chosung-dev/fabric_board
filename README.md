@@ -11,7 +11,9 @@ git clone https://github.com/chosung-dev/fabric_board
 fabric-samples 디렉토리에 hyperledger/fabric-samples/basic-network(https://github.com/hyperledger/fabric-samples/basic-network) 디렉토리를 복사해서 집어넣는다. 
 ```
 cd fabric_board
-git clone https://github.com/hyperledger/fabric-samples/basic-network
+git clone https://github.com/hyperledger/fabric-samples
+cp -r fabric-samples/basic-network .
+rm -rf fabric-samples
 ```
 설치된 최종 디렉토리 경로는 `fabric_board/fabric-samples/basic-network`이다.
 
