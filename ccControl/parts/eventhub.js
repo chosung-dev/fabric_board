@@ -32,16 +32,23 @@ module.exports = {
             eh.registerBlockEvent(
                 (block) => {
                     console.log("Block added");
-                    let first_tx = block.filtered_transactions[0];
-                    let channel_id = block.channel_id;
+                    let first_tx = block.data.data[0];
+                    let header = first_tx.payload.header;
+                    let channel_id = header.channel_header.channel_id;
                     if ("mychannel" !== channel_id) return;
-                    callbackFunc({
-                        'block': block,
-                        'a': block.filtered_transactions[0].transaction_actions,
-                        'b': block.filtered_transactions[0].transaction_actions.chaincode_actions[0],
-                        'block_number': block.number.toString(),
-                        'transactions': block.filtered_transactions
-                    })
+                    let json = JSON.stringify(first_tx);
+                    let tx = JSON.parse(json);
+                    let tx_value = tx.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[0].rwset.writes[0].value;
+
+                    callbackFunc(tx_value)
+                    //callbackFunc({
+                    //'tx_value': tx_value,
+                    //'block': block,
+                    //'number':block.header.number.toString(),
+                    //'previous_hash':block.header.previous_hash,
+                    //'data_hash':block.header.data_hash,
+                    //'transactions':block.data.data[0]
+                    //})
                 },
                 (err) => {
                     console.log("Error Point1");
