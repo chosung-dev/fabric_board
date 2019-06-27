@@ -53,6 +53,12 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
+    var eventhub = require(path.join(__dirname,'./ccControl/parts/eventhub.js'));
+    eventhub.blockevent(function (result){
+        console.log(result);
+    });
+
+
 });
 
 
