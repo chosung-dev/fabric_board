@@ -29,26 +29,11 @@ module.exports = {
             channel.addPeer(peer);
             const eh = channel.newChannelEventHub(peer);
             eh.connect();
+            console.log("A Point");
             eh.registerBlockEvent(
                 (block) => {
                     console.log("Block added");
-                    let first_tx = block.data.data[0];
-                    let header = first_tx.payload.header;
-                    let channel_id = header.channel_header.channel_id;
-                    if ("mychannel" !== channel_id) return;
-                    let json = JSON.stringify(first_tx);
-                    let tx = JSON.parse(json);
-                    let tx_value = tx.payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[0].rwset.writes[0].value;
-
-                    callbackFunc(tx_value)
-                    //callbackFunc({
-                    //'tx_value': tx_value,
-                    //'block': block,
-                    //'number':block.header.number.toString(),
-                    //'previous_hash':block.header.previous_hash,
-                    //'data_hash':block.header.data_hash,
-                    //'transactions':block.data.data[0]
-                    //})
+                    callbackFunc(block);
                 },
                 (err) => {
                     console.log("Error Point1");

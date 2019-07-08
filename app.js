@@ -48,6 +48,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
+    console.log("app.js start!!");
     res.status(err.status || 500);
     res.render('error', {
         message: err.message,
@@ -56,6 +57,7 @@ app.use(function(err, req, res, next) {
     var eventhub = require(path.join(__dirname,'./ccControl/parts/eventhub.js'));
     eventhub.blockevent(function (result){
         console.log(result);
+        console.log("HelloWorld");
     });
 
 

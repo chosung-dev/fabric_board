@@ -5,6 +5,7 @@ const path = require('path');
 
 app.set('port', process.env.PORT || 3000);
 
+
 var server = app.listen(app.get('port'), function() {
 
   var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
@@ -14,5 +15,10 @@ var server = app.listen(app.get('port'), function() {
       debug('Express server listening on port ' + server.address().port);
       console.log("server up_ http://localhost:3000");
     }
+    });
+  var eventhub = require(path.join(__dirname,'../ccControl/parts/eventhub.js'));
+  eventhub.blockevent(function (result){
+    console.log(result);
   });
-});
+})
+
