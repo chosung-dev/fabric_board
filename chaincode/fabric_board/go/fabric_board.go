@@ -98,6 +98,10 @@ func (s *SmartContract) deleteBoard(APIstub shim.ChaincodeStubInterface, args []
 	if err != nil {
 		return shim.Error("Failed to delete state")
 	}
+    err = APIstub.SetEvent("deleteevent", []byte("EventMessage"))
+    if err != nil{
+        return shim.Error(err.Error());
+    }
 
 	return shim.Success(nil)
 }
@@ -188,6 +192,10 @@ func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []str
     //APIstub.PutState(args[0], boardAsBytes)
     APIstub.PutState("BOARD"+strconv.Itoa(board_count), boardAsBytes)
     board_count = board_count+1
+    err := APIstub.SetEvent("myevent", []byte("EventMessage"))
+    if err != nil{
+        return shim.Error(err.Error());
+    }
 	return shim.Success(nil)
 }
 

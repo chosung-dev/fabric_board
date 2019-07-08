@@ -10,7 +10,6 @@ const ccp = JSON.parse(ccpJSON);
 module.exports = {
     blockevent : async function(callbackFunc){
         try {
-            // const walletPath = path.join(process.cwd(),'.','fabric','userRegister','wallet');
             const walletPath = path.join(process.cwd(),'..','ccControl' ,'wallet');
             const wallet = new FileSystemWallet(walletPath);
             console.log(`Wallet path: ${walletPath}`);
@@ -28,11 +27,12 @@ module.exports = {
             var peer = client.newPeer("grpc://localhost:7051", { 'ssl-target-name-override': null });
             channel.addPeer(peer);
             const eh = channel.newChannelEventHub(peer);
-            eh.connect();
-            console.log("A Point");
+
+            eh.connect(true);
+            
             eh.registerBlockEvent(
                 (block) => {
-                    console.log("Block added");
+                    console.log(">> Block Eveint Call");
                     callbackFunc(block);
                 },
                 (err) => {
@@ -40,6 +40,36 @@ module.exports = {
                     console.log(err);
                 }
             );
+            
+            eh.registerChaincodeEvent(
+                'fabric_board',
+                'myevent',
+                (event)=> {
+                    console.log(">> ChacinCode Event Call");
+                    console.log(event[0].chaincode_event.payload.toString('utf-8'));
+                    callbackFunc("events");
+                    eh.unregisterChaincodeEvent("fabric_board");
+                    callbackFunc(event);
+                },
+                (err) =>{
+                },
+                { as_array: true}
+           );
+            eh.registerChaincodeEvent(
+                'fabric_board',
+                'deleteevent',
+                (event, block_num, txnid, status)=> {
+                    console.log(">> ChacinCode Event Call");
+                    console.log(event);
+                    callbackFunc("events");
+                    eh.unregisterChaincodeEvent("fabric_board");
+                    callbackFunc(event);
+                },
+                (err) =>{
+                    /* process err */
+                },
+                { as_array: true}
+           );
             await gateway.disconnect();
         } catch (error) {
             console.log("Error Point2");
