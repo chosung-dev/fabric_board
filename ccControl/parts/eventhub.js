@@ -58,10 +58,8 @@ module.exports = {
             eh.registerChaincodeEvent(
                 'fabric_board',
                 'deleteevent',
-                (event, block_num, txnid, status)=> {
+                (event)=> {
                     console.log(">> ChacinCode Event Call");
-                    console.log(event);
-                    callbackFunc("events");
                     eh.unregisterChaincodeEvent("fabric_board");
                     callbackFunc(event);
                 },
