@@ -14,7 +14,7 @@ cd fabric_board
 git clone https://github.com/hyperledger/fabric-samples
 cd fabric-samples
 git checkout release-1.4
-find . ! -name fabric_board -delete
+find . ! -name basic-network -delete
 ```
 설치된 최종 디렉토리 경로는 `fabric_board/fabric-samples/basic-network`이다.
 
