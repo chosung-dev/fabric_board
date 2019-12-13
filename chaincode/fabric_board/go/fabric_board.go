@@ -1,6 +1,4 @@
-
 package main
-
 
 import (
 	"bytes"
@@ -16,14 +14,14 @@ type SmartContract struct {
 }
 
 type Board struct {
-	Tittle   string `json:"tittle"`
-	Content  string `json:"content"`
+	Tittle  string `json:"tittle"`
+	Content string `json:"content"`
 }
 
 var board_count int
 
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
-    board_count = 0
+	board_count = 0
 	return shim.Success(nil)
 }
 
@@ -38,13 +36,13 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.createBoard(APIstub, args)
 	} else if function == "queryAllBoard" {
 		return s.queryAllBoard(APIstub)
-	} else if function == "queryAllBoardView"{
+	} else if function == "queryAllBoardView" {
 		return s.queryAllBoardView(APIstub)
-	}else if function == "deleteBoard"{
-        return s.deleteBoard(APIstub, args)
-    }else if function == "addBoard"{
-             return s.addBoard(APIstub, args)
-    }
+	} else if function == "deleteBoard" {
+		return s.deleteBoard(APIstub, args)
+	} else if function == "addBoard" {
+		return s.addBoard(APIstub, args)
+	}
 
 	return shim.Error("Invalid Smart Contract function name.")
 }
@@ -73,7 +71,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 		APIstub.PutState("BOARD"+strconv.Itoa(i), boardAsBytes)
 		i = i + 1
 	}
-    board_count = board_count +4
+	board_count = board_count + i
 	return shim.Success(nil)
 }
 
@@ -85,7 +83,7 @@ func (s *SmartContract) createBoard(APIstub shim.ChaincodeStubInterface, args []
 
 	boardAsBytes, _ := json.Marshal(board)
 	APIstub.PutState(args[0], boardAsBytes)
-    board_count = board_count+1
+	board_count = board_count + 1
 	return shim.Success(nil)
 }
 
@@ -171,7 +169,7 @@ func (s *SmartContract) queryAllBoardView(APIstub shim.ChaincodeStubInterface) s
 		buffer.WriteString(board_info.Tittle)
 
 		buffer.WriteString("\tContent :")
-		buffer.WriteString(board_info.Content+"\n")
+		buffer.WriteString(board_info.Content + "\n")
 
 	}
 	return shim.Success(buffer.Bytes())
@@ -183,11 +181,10 @@ func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []str
 	}
 	var board = Board{Tittle: args[0], Content: args[1]}
 
-
-    boardAsBytes, _ := json.Marshal(board)
-    //APIstub.PutState(args[0], boardAsBytes)
-    APIstub.PutState("BOARD"+strconv.Itoa(board_count), boardAsBytes)
-    board_count = board_count+1
+	boardAsBytes, _ := json.Marshal(board)
+	//APIstub.PutState(args[0], boardAsBytes)
+	APIstub.PutState("BOARD"+strconv.Itoa(board_count), boardAsBytes)
+	board_count = board_count + 1
 	return shim.Success(nil)
 }
 

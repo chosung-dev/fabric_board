@@ -8,6 +8,28 @@ var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
 router.get('/', function(req, res) {
   ccControl.query_view(function(board_list){
     board_json = JSON.parse(board_list.toString());
+      var by = function(name) {
+          return function(o, p) {
+              var a, b;
+              if (typeof o === 'object' && typeof p === 'object' && o && p) {
+                  a = Number(o[name].substring(5));
+                  b = Number(p[name].substring(5));
+                  if (a === b) {
+                      return 0;
+                  }
+                  if (typeof a === typeof b) {
+                      return a < b ? -1 : 1;
+                  }
+                  return typeof a < typeof b ? -1 : 1;
+              } else {
+                  throw {
+                      name : 'Error',
+                      message : 'Expected an object when sorting by ' + name
+                  };
+              }
+          };
+      };
+      board_json = board_json.sort(by('Key'));
     res.render('index', { title: 'Fabric Board', board_list: board_json});
   });
 });
