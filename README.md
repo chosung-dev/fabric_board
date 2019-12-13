@@ -47,12 +47,13 @@ startFabric.sh를 통해 컨테이너 생성 및 체인코드 입력.
 다음과 같은 컨테이너를 확인 할 수 있다.
 
 ```
-CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                                            NAMES
-8a13ad4662d4        hyperledger/fabric-tools     "/bin/bash"              2 minutes ago       Up 2 minutes                                                         cli
-2deddbb21717        hyperledger/fabric-peer      "peer node start"        2 minutes ago       Up 2 minutes        0.0.0.0:7051->7051/tcp, 0.0.0.0:7053->7053/tcp   peer0.org1.example.com
-1de6ccc4c52e        hyperledger/fabric-ca        "sh -c 'fabric-ca-se…"   2 minutes ago       Up 2 minutes        0.0.0.0:7054->7054/tcp                           ca.example.com
-98bd051eb96f        hyperledger/fabric-couchdb   "tini -- /docker-ent…"   2 minutes ago       Up 2 minutes        4369/tcp, 9100/tcp, 0.0.0.0:5984->5984/tcp       couchdb
-3f5675763f7e        hyperledger/fabric-orderer   "orderer"                2 minutes ago       Up 2 minutes        0.0.0.0:7050->7050/tcp                           orderer.example.com
+CONTAINER ID        IMAGE                                                                                                          COMMAND                  CREATED              STATUS              PORTS                                            NAMES
+4c9ce1252178        dev-peer0.org1.example.com-fabric_board-1.0-47efc121b52d2ddebdf3614a86156e23d4fcba28e8b83a3ad4b5d40389c2abf8   "chaincode -peer.add…"   28 seconds ago       Up 27 seconds                                                        dev-peer0.org1.example.com-fabric_board-1.0
+d4d6a75b8dc2        hyperledger/fabric-tools                                                                                       "/bin/bash"              About a minute ago   Up About a minute                                                    cli
+a4a8c3975e54        hyperledger/fabric-peer                                                                                        "peer node start"        2 minutes ago        Up 2 minutes        0.0.0.0:7051->7051/tcp, 0.0.0.0:7053->7053/tcp   peer0.org1.example.com
+3c9ed7a155b1        hyperledger/fabric-couchdb                                                                                     "tini -- /docker-ent…"   2 minutes ago        Up 2 minutes        4369/tcp, 9100/tcp, 0.0.0.0:5984->5984/tcp       couchdb
+d0f67b94d03c        hyperledger/fabric-orderer                                                                                     "orderer"                2 minutes ago        Up 2 minutes        0.0.0.0:7050->7050/tcp                           orderer.example.com
+e7c51dbbff39        hyperledger/fabric-ca                                                                                          "sh -c 'fabric-ca-se…"   2 minutes ago        Up 2 minutes        0.0.0.0:7054->7054/tcp
 ```
 
 npm install 진행
