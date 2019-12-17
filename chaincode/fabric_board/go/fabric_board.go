@@ -30,33 +30,19 @@ func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	function, args := APIstub.GetFunctionAndParameters()
-	if function == "queryBoard" {
-		return s.queryBoard(APIstub, args)
-	} else if function == "initLedger" {
+	if function == "initLedger" {
 		return s.initLedger(APIstub)
 	} else if function == "createBoard" {
 		return s.createBoard(APIstub, args)
 	} else if function == "queryAllBoard" {
 		return s.queryAllBoard(APIstub, args)
-	} else if function == "queryAllBoardView"{
-		return s.queryAllBoardView(APIstub)
-	}else if function == "deleteBoard"{
+	} else if function == "deleteBoard"{
         return s.deleteBoard(APIstub, args)
     }else if function == "addBoard"{
 		return s.addBoard(APIstub, args)
     }
 
 	return shim.Error("Invalid Smart Contract function name.")
-}
-
-func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 2 {
-		return shim.Error("Incorrect number of arguments. Expecting 1")
-	}
-
-	carAsBytes, _ := APIstub.GetPrivateData(args[1], args[0])
-	return shim.Success(carAsBytes)
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
@@ -98,6 +84,7 @@ func (s *SmartContract) createBoard(APIstub shim.ChaincodeStubInterface, args []
 	var board = Board{Tittle: args[1], Content: args[2]}
 
 	boardAsBytes, _ := json.Marshal(board)
+	//APIstub.PutPrivateData(args[3], args[0], boardAsBytes)
 	APIstub.PutPrivateData(args[3], args[0], boardAsBytes)
     board_count = board_count+1
 	return shim.Success(nil)
@@ -138,9 +125,12 @@ func (s *SmartContract) queryAllBoard(APIstub shim.ChaincodeStubInterface,args [
 		if bArrayMemberAlreadyWritten == true {
 			buffer.WriteString(",")
 		}
-		buffer.WriteString("{\"Key\":")
-		buffer.WriteString("\"")
+		buffer.WriteString("{\"Key\":\"")
 		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(",\"Collection\":\"")
+        buffer.WriteString(args[0])
 		buffer.WriteString("\"")
 
 		buffer.WriteString(", \"Record\":")
@@ -156,37 +146,6 @@ func (s *SmartContract) queryAllBoard(APIstub shim.ChaincodeStubInterface,args [
 	return shim.Success(buffer.Bytes())
 }
 
-func (s *SmartContract) queryAllBoardView(APIstub shim.ChaincodeStubInterface) sc.Response {
-
-	startKey := "BOARD0"
-	endKey := "BOARD999"
-
-	resultsIterator, err := APIstub.GetPrivateDataByRange("collectionPrivateBoard", startKey, endKey)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
-	defer resultsIterator.Close()
-
-	// buffer is a JSON array containing QueryResults
-	var buffer bytes.Buffer
-
-	for resultsIterator.HasNext() {
-		queryResponse, err := resultsIterator.Next()
-		if err != nil {
-			return shim.Error(err.Error())
-		}
-		var board_info Board
-		err = json.Unmarshal(queryResponse.Value, &board_info)
-
-		buffer.WriteString("Tittle :")
-		buffer.WriteString(board_info.Tittle)
-
-		buffer.WriteString("\tContent :")
-		buffer.WriteString(board_info.Content+"\n")
-
-	}
-	return shim.Success(buffer.Bytes())
-}
 
 func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 	if len(args) != 3 {
@@ -202,7 +161,7 @@ func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []str
 	return shim.Success(nil)
 }
 
-// main함수는 테스트에서만 사용이 됩니다.
+
 func main() {
 	// Create a new Smart Contract
 	err := shim.Start(new(SmartContract))
@@ -210,4 +169,5 @@ func main() {
 		fmt.Printf("Error creating new Smart Contract: %s", err)
 	}
 }
+
 

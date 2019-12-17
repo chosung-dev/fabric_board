@@ -5,6 +5,7 @@ block content
 
     form#form1(action='repairboard_submit', method='GET')
         input(type='text', name='id', value= board_id, style='display:none')
+        input(type='text', name='collection', value= board_collection, style='display:none')
         table.type01
             tbody
                 tr
@@ -17,4 +18,5 @@ block content
                         input(type='text', name='content', value= board_content)
         .wrap
             a.button(href='#', onclick="document.getElementById('form1').submit()") 수정
+
 

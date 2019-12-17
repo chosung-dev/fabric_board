@@ -15,9 +15,11 @@ CC_SRC_PATH=github.com/fabric_board/go
 
 # clean the keystore
 rm -rf ./hfc-key-store
+rm -rf ccControl/wallet
+mkdir ccControl/wallet
 
 # launch network; create channel and join peer to channel
-cd fabric-samples/test_network
+cd fabric-samples/basic-network
 ./start.sh
 
 # Now launch the CLI container in order to install, instantiate chaincode

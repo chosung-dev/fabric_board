@@ -7,9 +7,9 @@ block content
     function check(chkbox) {
       if (chkbox.checked == true) {
         alert("ORG1 SELECT");
-        location.href = "http://localhost:3000/?user=user1";
+        location.href = "http://"+window.location.host+"/?user=user1";
       } else {
-        location.href = "http://localhost:3000/?user=user3";
+        location.href = "http://" + window.location.host + "/?user=user3";
         alert("ORG3 SELECT");
       }
     }
@@ -34,8 +34,9 @@ block content
           th(scope='row') #{board_json[i].Record.tittle}
           td #{board_json[i].Record.content}
           td(style='width : 40px; border-left:hidden; padding-left:-30px')
-              a(href='/repair?board_id=#{board_json[i].Key}&board_title=#{board_json[i].Record.tittle}&board_content=#{board_json[i].Record.content}', style='width:100%;  margin:-20px; padding:-10px; color: #BDBDBD;') 수정
+              a(href='/repair?board_id=#{board_json[i].Key}&board_title=#{board_json[i].Record.tittle}&board_content=#{board_json[i].Record.content}&board_collection=#{board_json[i].Collection}', style='width:100%;  margin:-20px; padding:-10px; color: #BDBDBD;') 수정
           td(style='width : 40px; border-left:hidden; padding-left:-30px')
               a(href='/delete?board_id=#{board_json[i].Key}', style='width:100%; margin:-20px; padding:-10px; color: #BDBDBD;') 삭제
   .wrap
     a.button(href='createboard') 글 작성
+

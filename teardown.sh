@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Exit on first error, print all commands.
-rm -rf ccControl/wallet/*
+rm -rf ccControl/wallet
+mkdir ccControl/wallet
 set -e
 cd fabric-samples/basic-network/
 # Shut down the Docker containers for the system tests.

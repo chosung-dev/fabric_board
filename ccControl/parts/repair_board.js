@@ -13,7 +13,7 @@ module.exports = function(){
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     const ccp = JSON.parse(ccpJSON);
     var ccControl = {
-        repair_board : async function(id, title, content, callbackFunc){
+        repair_board : async function(user, id, title, content, collection, callbackFunc){
             try {
                 // Create a new file system based wallet for managing identities.
                 const walletPath = path.join(process.cwd(),'..','ccControl' ,'wallet');
@@ -40,11 +40,9 @@ module.exports = function(){
 
                 // Submit the specified transaction.
                 var args = process.argv;
-                if(user =="user1"){
-                    await contract.submitTransaction('createBoard',id, title, content, "collectionPrivateBoard");
-                }else{
-                    await contract.submitTransaction('createBoard',id, title, content, "collectionBoard");
-                }
+                
+                await contract.submitTransaction('createBoard',id, title, content, collection);
+
                 // Disconnect from the gateway.
                 await gateway.disconnect();
 
@@ -59,6 +57,7 @@ module.exports = function(){
 
     return ccControl;
 };
+
 
 
 
