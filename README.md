@@ -8,32 +8,6 @@ fabric-board 다운로드
 git clone https://github.com/chosung-dev/fabric_board
 ```
 
-fabric-samples 디렉토리에 hyperledger/fabric-samples/basic-network(https://github.com/hyperledger/fabric-samples/basic-network) 디렉토리를 복사해서 집어넣는다. 
-```
-cd fabric_board
-git clone https://github.com/hyperledger/fabric-samples
-cd fabric-samples
-git checkout release-1.4
-```
-사용 할 fabric sample은 `fabric_board/fabric-samples/basic-network`이다.
-
-basic-network/docker-compose.yml 파일을 다음과 같이 수정
-
- -변경전
-
-```
-service.cli.volume:
-		- ./../chaincode/:/opt/gopath/src/github.com/
-```
-
- -변경후
-
-```
-service.cli.volume:
-		- ./../../chaincode/:/opt/gopath/src/github.com/
-```
-
-
 
 #### 02.컨테이너 생성 및 서버 오픈
 
