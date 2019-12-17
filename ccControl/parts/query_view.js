@@ -9,7 +9,7 @@ module.exports = function(){
     const fs = require('fs');
     const path = require('path');
 
-    const ccpPath = path.resolve(__dirname, '..','..','fabric-samples', 'basic-network', 'connection.json');
+    const ccpPath = path.resolve(__dirname, '..','..', 'basic-network', 'connection.json');
     const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
     const ccp = JSON.parse(ccpJSON);
     var ccControl = {
