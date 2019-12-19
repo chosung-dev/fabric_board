@@ -65,5 +65,11 @@ fabric_board/bin/www 실행하여 http://localhost:3000 접속 확인.
 cd bin
 node www
 ```
+게시판 사이트 확인
 
 ![readmeImage01.png](./readmeImage/readmeImage01.png)
+
+
+게시글 작성, 삭제 등의 이벤트 발생 후 로그 확인
+
+![readmeImage01.png](./readmeImage/readmeImage02.png)
