@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FabricController {
     private static Logger logger = LoggerFactory.getLogger(FabricController.class) ;
-    private static String dockerIp = "13.125.108.193";
+    private static String dockerIp = "0.0.0.0";
     private static String chaincodeName = "fabric_board";
     private static String channelName = "mychannel";
 
