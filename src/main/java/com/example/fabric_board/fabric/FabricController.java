@@ -1,3 +1,7 @@
+/*
+Copyright jin.hur@themedium.io. All Rights Reserved
+*/
+
 package com.example.fabric_board.fabric;
 
 
