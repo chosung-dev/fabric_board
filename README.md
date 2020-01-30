@@ -10,8 +10,8 @@ cd fabric_board
 git checkout v4.0-java-sdk
 git branch
 ┌───────────── 출력 ────────────┐
-│  v1.0-onlyboard			   │
-│* v4.0-java-sdk			   │
+│  v1.0-onlyboard			   
+│* v4.0-java-sdk			   
 └──────────────────────────────┘
 ```
 
