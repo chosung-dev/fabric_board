@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"log"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -21,11 +22,13 @@ type Board struct {
 var board_count int
 
 func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
+	log.Println("Init call")
 	board_count = 0
 	return shim.Success(nil)
 }
 
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
+	log.Println("Invoke call")
 
 	function, args := APIstub.GetFunctionAndParameters()
 	if function == "queryBoard" {
@@ -48,6 +51,7 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 }
 
 func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	log.Println("queryBoard call")
 
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -58,6 +62,7 @@ func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []s
 }
 
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
+	log.Println("initLedger call")
 	cars := []Board{
 		Board{Tittle: "테스트 제목입니다_01", Content: "테스트 내용입니다_01"},
 		Board{Tittle: "테스트 제목입니다_02", Content: "테스트 내용입니다_02"},
@@ -76,6 +81,7 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 }
 
 func (s *SmartContract) createBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	log.Println("createBoard call")
 	if len(args) != 3 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
@@ -88,6 +94,7 @@ func (s *SmartContract) createBoard(APIstub shim.ChaincodeStubInterface, args []
 }
 
 func (s *SmartContract) deleteBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	log.Println("deleteBoard call")
 
 	var id = args[0]
 
@@ -101,6 +108,7 @@ func (s *SmartContract) deleteBoard(APIstub shim.ChaincodeStubInterface, args []
 }
 
 func (s *SmartContract) queryAllBoard(APIstub shim.ChaincodeStubInterface) sc.Response {
+	log.Println("queryAllBoard call")
 
 	startKey := "BOARD0"
 	endKey := "BOARD999"
@@ -138,12 +146,11 @@ func (s *SmartContract) queryAllBoard(APIstub shim.ChaincodeStubInterface) sc.Re
 	}
 	buffer.WriteString("]")
 
-	fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
-
 	return shim.Success(buffer.Bytes())
 }
 
 func (s *SmartContract) queryAllBoardView(APIstub shim.ChaincodeStubInterface) sc.Response {
+	log.Println("queryAllBoardView call")
 
 	startKey := "BOARD0"
 	endKey := "BOARD999"
@@ -176,6 +183,8 @@ func (s *SmartContract) queryAllBoardView(APIstub shim.ChaincodeStubInterface) s
 }
 
 func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	log.Println("addBoard call")
+
 	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 3")
 	}
@@ -188,7 +197,6 @@ func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []str
 	return shim.Success(nil)
 }
 
-// main함수는 테스트에서만 사용이 됩니다.
 func main() {
 	// Create a new Smart Contract
 	err := shim.Start(new(SmartContract))
