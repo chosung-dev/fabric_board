@@ -27,6 +27,8 @@ block content
             a.button(href='#', onclick="document.getElementById('form1').submit()") 수정
     a.button(href='javascript:doDisplay();')수정내역 보기
     #historyFrom(style="display:none")
+        if history.length==1
+            center 수정 내역이 없습니다
         -for(var i=history.length-2; i>=0; i--)
             form#form1()
                 table.type01
