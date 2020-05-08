@@ -2,7 +2,15 @@ extends layout
 
 block content
     h1= title
-
+    script(type='text/javascript').
+        function doDisplay(){
+            var con = document.getElementById("historyFrom");
+            if(con.style.display=='none'){
+            con.style.display = 'block';
+            }else{
+            con.style.display = 'none';
+            }
+        }
     form#form1(action='repairboard_submit', method='GET')
         input(type='text', name='id', value= board_id, style='display:none')
         table.type01
@@ -17,4 +25,30 @@ block content
                         input(type='text', name='content', value= board_content)
         .wrap
             a.button(href='#', onclick="document.getElementById('form1').submit()") 수정
+    a.button(href='javascript:doDisplay();')수정내역 보기
+    #historyFrom(style="display:none")
+        -for(var i=history.length-2; i>=0; i--)
+            form#form1()
+                table.type01
+                    tbody
+                        tr
+                            th(scope='row')
+                                if i==0
+                                    p 생성일
+                                else
+                                    p 수정일
+                            td
+                                p #{history[i].Timestamp}
+                        tr
+                            th(scope='row')
+                                p 제목
+                            td
+                                p #{history[i].Value.tittle}
+                        tr
+                            th(scope='row')
+                                p 내용
+                            td
+                                p #{history[i].Value.content}
+                .wrap
+                p
 

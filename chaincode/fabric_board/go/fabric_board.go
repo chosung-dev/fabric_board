@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strconv"
 	"log"
+	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -45,9 +46,11 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.deleteBoard(APIstub, args)
 	} else if function == "addBoard" {
 		return s.addBoard(APIstub, args)
+	} else if function == "getBoardHistry"{
+	    return s.getBoardHistry(APIstub, args)
 	}
 
-	return shim.Error("Invalid Smart Contract function name.")
+	return shim.Error("Invalid Smart Contract function name. : "+ function +" !")
 }
 
 func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
@@ -195,6 +198,58 @@ func (s *SmartContract) addBoard(APIstub shim.ChaincodeStubInterface, args []str
 	APIstub.PutState("BOARD"+strconv.Itoa(board_count), boardAsBytes)
 	board_count = board_count + 1
 	return shim.Success(nil)
+}
+
+func (s *SmartContract) getBoardHistry(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+	resultsIterator, err := APIstub.GetHistoryForKey(args[0])
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing historic values for the marble
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	bArrayMemberAlreadyWritten := false
+	for resultsIterator.HasNext() {
+		response, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"TxId\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(response.TxId)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Value\":")
+		if response.IsDelete {
+			buffer.WriteString("null")
+		} else {
+			buffer.WriteString(string(response.Value))
+		}
+
+		buffer.WriteString(", \"Timestamp\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(time.Unix(response.Timestamp.Seconds, int64(response.Timestamp.Nanos)).String())
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"IsDelete\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(strconv.FormatBool(response.IsDelete))
+		buffer.WriteString("\"")
+
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+	}
+	buffer.WriteString("]")
+
+	fmt.Printf("- getHistoryForMarble returning:\n%s\n", buffer.String())
+
+	return shim.Success(buffer.Bytes())
 }
 
 func main() {

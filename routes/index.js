@@ -58,7 +58,10 @@ router.get('/delete', function(req, res) {
 });
 
 router.get('/repair', function(req, res) {
-    res.render('repairboard', { title: 'Change Board',board_id: req.query.board_id, board_title: req.query.board_title, board_content:req.query.board_content});
+    ccControl.get_boardHistory(req.query.board_id, function(history_list){
+        history = JSON.parse(history_list.toString())
+        res.render('repairboard', { title: 'Change Board',board_id: req.query.board_id, board_title: req.query.board_title, board_content:req.query.board_content, history : history});
+    });
 });
 
 router.get('/repairboard_submit', function(req, res) {

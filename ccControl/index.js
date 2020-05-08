@@ -18,6 +18,9 @@ module.exports = function(){
     const create_board = require('./parts/create_board.js')();
     for (const func in create_board) ccC[func] = create_board[func];
 
+    const get_boardHistory = require('./parts/get_boardHistory.js')();
+    for (const func in get_boardHistory) ccC[func] = get_boardHistory[func];
+
     const enrollAdmin = require('./enrollAdmin.js')();
     for (const func in enrollAdmin) ccC[func] = enrollAdmin[func];
 
