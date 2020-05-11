@@ -11,6 +11,10 @@ block content
             con.style.display = 'none';
             }
         }
+        function button1_click() {
+            document.getElementById('form1').submit();
+            document.getElementById('bt1').onclick = "Done()";
+        }
     form#form1(action='repairboard_submit', method='GET')
         input(type='text', name='id', value= board_id, style='display:none')
         table.type01
@@ -24,7 +28,7 @@ block content
                     td
                         input(type='text', name='content', value= board_content)
         .wrap
-            a.button(href='#', onclick="document.getElementById('form1').submit()") 수정
+            a.button#bt1(href='#', onclick="button1_click()") 수정
     a.button(href='javascript:doDisplay();')수정내역 보기
     #historyFrom(style="display:none")
         if history.length==1

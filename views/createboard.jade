@@ -2,7 +2,11 @@ extends layout
 
 block content
     h1= title
-
+    script.
+        function button1_click() {
+            document.getElementById('form1').submit();
+            document.getElementById('bt1').onclick = "Done()";
+        }
     form#form1(action='creatboard_submit', method='GET')
         table.type01
             tbody
@@ -15,5 +19,5 @@ block content
                     td
                         input(type='text', name='content')
         .wrap
-            a.button(href='#', onclick="document.getElementById('form1').submit()") 글 작성
+            a.button#bt1(href='#', type='button', onclick="button1_click()") 글 작성
 
