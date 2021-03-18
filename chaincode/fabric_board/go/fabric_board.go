@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"strconv"
 	"log"
+	"strconv"
 	"time"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -46,11 +46,11 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 		return s.deleteBoard(APIstub, args)
 	} else if function == "addBoard" {
 		return s.addBoard(APIstub, args)
-	} else if function == "getBoardHistry"{
-	    return s.getBoardHistry(APIstub, args)
+	} else if function == "getBoardHistry" {
+		return s.getBoardHistry(APIstub, args)
 	}
 
-	return shim.Error("Invalid Smart Contract function name. : "+ function +" !")
+	return shim.Error("Invalid Smart Contract function name. : " + function + " !")
 }
 
 func (s *SmartContract) queryBoard(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
