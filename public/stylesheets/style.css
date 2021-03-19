@@ -59,6 +59,7 @@ a {
   text-decoration: none;
   border-radius: 4px;
   padding: 20px 30px;
+  text-align: center;
 }
 
 a.button {

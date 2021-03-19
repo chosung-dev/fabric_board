@@ -6,13 +6,15 @@ const path = require('path');
 app.set('port', process.env.PORT || 3000);
 
 var server = app.listen(app.get('port'), function() {
+  var fabricManager = require(path.join(__dirname,'../fabricClient/fabricManager.js'));
+  var async = require('async')
 
-  var ccControl = require(path.join(__dirname,'../ccControl/index.js'))();
-
-  ccControl.init_user1(function(value){
-    if(value == "Sucess"){
-      debug('Express server listening on port ' + server.address().port);
-      console.log("server up_ http://localhost:3000");
-    }
-  });
+  fabricManager.enrollAdmin(function(){
+    fabricManager.registerUser(function(){
+      fabricManager.connectContract(function(){
+        debug('Express server listening on port ' + server.address().port);
+        console.log("server up_ http://localhost:3000");
+      })
+    })
+  })
 });
